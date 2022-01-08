@@ -1,7 +1,3 @@
-require 'takeaway'
-require 'menu'
-require 'order'
-
 describe 'User Stories' do
   let(:takeaway)      { Takeaway.new(menu: menu, order: order) }
   let(:menu)          { Menu.new(items) }
@@ -61,6 +57,22 @@ describe 'User Stories' do
       quantity = "not a number"
       message = "Quantity #{quantity} for salad is invalid. Please try again"
       expect { takeaway.add(salad: quantity) }.to raise_error message
+    end
+  end
+
+  # As a customer
+  # So that I can verify that my order is correct
+  # I would like to check that the total I have been given matches the sum of the various dishes in my order
+  it 'a customer can check that the given total matches the sum of the dishes in their order' do
+    takeaway.add(salad: 2, sandwich: 1)
+    expect(takeaway.correct_total?(14)).to be true
+  end
+
+  context 'when the total given by the customer does not match the order total' do
+    it 'raises an error' do
+      takeaway.add(salad: 2, sandwich: 1)
+      message = "£12.00 total entered does not match the £14.00 order total"
+      expect { takeaway.correct_total?(12) }.to raise_error message
     end
   end
 end

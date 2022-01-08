@@ -15,6 +15,10 @@ class Order
     @basket.dup
   end
 
+  def total
+    individual_totals.inject(:+)
+  end
+
   private
 
   attr_reader :menu
@@ -25,5 +29,9 @@ class Order
 
   def valid?(quantity)
     quantity.is_a?(Integer) && quantity.positive?
+  end
+
+  def individual_totals
+    basket.map { |name, quantity| menu.price(name) * quantity }
   end
 end

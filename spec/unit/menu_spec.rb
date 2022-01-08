@@ -21,6 +21,12 @@ describe Menu do
       it 'returns false' do
         expect(menu.has?(:fries)).to be false
       end
-    end 
+    end
+  end
+
+  describe '#price' do
+    it 'returns the price of the given item' do
+      expect(menu.price(:salad)).to eq 3.25
+    end
   end
 end

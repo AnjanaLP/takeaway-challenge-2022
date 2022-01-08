@@ -4,11 +4,9 @@ describe Order do
   subject(:order)     { described_class.new(menu) }
   let(:menu)          { double :menu }
 
-  describe '#add_to_basket' do
-    before do
-      allow(menu).to receive(:has?).with(:salad).and_return true
-    end
+  before { allow(menu).to receive(:has?).with(:salad).and_return true }
 
+  describe '#add_to_basket' do
     it 'adds the given quantity of the given item to the basket' do
       order.add_to_basket(:salad, 3)
       expect(order.basket).to include(salad: 3)
@@ -61,6 +59,17 @@ describe Order do
         message = "Quantity #{quantity} for salad is invalid. Please try again"
         expect { order.add_to_basket(:salad, quantity) }.to raise_error message
       end
+    end
+  end
+
+  describe '#total' do
+    it 'returns the sum of all the items in the basket' do
+      allow(menu).to receive(:has?).with(:sandwich).and_return true
+      allow(menu).to receive(:price).with(:salad).and_return 3.25
+      allow(menu).to receive(:price).with(:sandwich).and_return 7.50
+      order.add_to_basket(:salad, 2)
+      order.add_to_basket(:sandwich, 1)
+      expect(order.total).to eq 14
     end
   end
 end
