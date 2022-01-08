@@ -5,9 +5,7 @@ class Menu
   end
 
   def display
-   items.map do |name, price|
-     "#{format_name(name)}: £#{format_price(price)}"
-   end.join("\n")
+   items.map { |name, price| format(name, price) }.join("\n")
   end
 
   def has?(item)
@@ -22,11 +20,7 @@ class Menu
 
   attr_reader :items
 
-  def format_name(name)
-   name.capitalize.to_s.gsub("_", " ")
-  end
-
-  def format_price(price)
-   '%.2f' % price
+  def format(name, price)
+    "#{name.capitalize.to_s.gsub("_", " ")}: £#{'%.2f' % price}"
   end
 end
