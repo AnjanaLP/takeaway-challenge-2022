@@ -30,10 +30,17 @@ describe Order do
       end
     end
 
-    context 'when the given quantity is negative' do
-      it 'adds the absolute value' do
-        order.add_to_basket(:salad, -3)
-        expect(order.basket).to include(salad: 3)
+    context 'when the given quantity is less than 1' do
+      it 'does not add it to the basket' do
+        order.add_to_basket(:salad, 0)
+        expect(order.basket).not_to include(:salad)
+      end
+    end
+
+    context 'when the given quantity is a decimal' do
+      it 'rounds it the nearest whole number' do
+        order.add_to_basket(:salad, 1.2)
+        expect(order.basket).to include(salad: 1)
       end
     end
   end

@@ -6,7 +6,7 @@ class Order
   end
 
   def add_to_basket(name, quantity)
-    @basket[name] += absolute_value(quantity) if on_the_menu?(name)
+    @basket[name] += quantity.round if valid_request?(name, quantity)
   end
 
   def basket
@@ -16,12 +16,8 @@ class Order
   private
 
   attr_reader :menu
-  
-  def on_the_menu?(name)
-    menu.has?(name)
-  end
 
-  def absolute_value(quantity)
-    quantity.abs
+  def valid_request?(name, quantity)
+    menu.has?(name) && quantity >= 1
   end
 end

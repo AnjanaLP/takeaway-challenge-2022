@@ -16,8 +16,8 @@ describe 'User Stories' do
   # So that I can order the meal I want
   # I would like to be able to select some number of several available dishes
   it 'a customer can select some number of several available dishes' do
-    takeaway.add(fries: 3, salad: 1, sandwich: 2)
-    takeaway.add(salad: 1)
-    expect(order.basket).to eq(salad: 2, sandwich: 2)
+    takeaway.add(fries: 3, salad: -1, sandwich: 2, grilled_chicken: 0)
+    takeaway.add(sandwich: 1.2)
+    expect(order.basket).to eq(sandwich: 3)
   end
 end
