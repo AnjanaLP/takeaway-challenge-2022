@@ -10,6 +10,10 @@ class Menu
    end.join("\n")
   end
 
+  def has?(item)
+    !items[item].nil?
+  end
+
   private
 
   attr_reader :items
