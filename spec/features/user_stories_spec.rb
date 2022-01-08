@@ -78,6 +78,12 @@ describe 'User Stories' do
   # As a customer
   # So that I am reassured that my order will be delivered on time
   # I would like to receive a text such as "Thank you! Your order was placed and will be delivered before 18:52" after I have ordered
+  context 'when basket is empty' do
+    it 'raises an error' do
+     expect { takeaway.place_order(0) }.to raise_error "Cannot place order: basket is empty"
+    end
+  end
+
   it 'a customer receives a message with estimated delivery time after placing an order' do
     allow(Time).to receive(:now).and_return(Time.parse("17:52"))
     takeaway.add(salad: 2, sandwich: 1)

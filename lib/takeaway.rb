@@ -17,27 +17,27 @@ class Takeaway
     order.basket
   end
 
-  def place_order(customer_total)
-    correct_total?(customer_total)
-    return standard_message if sms_unavailable?
-    sms.send_text
+  def place_order(total)
+    verify_basket_not_empty
+    verify_correct_total(total)
+    send_message
   end
 
   private
 
   attr_reader :menu, :order, :sms
 
-  def equal_totals?(customer_total)
-    customer_total == order.total
+  def verify_basket_not_empty
+    raise "Cannot place order: basket is empty" if order.basket.empty?
   end
 
-  def correct_total?(customer_total)
-    message = "£#{'%.2f' % customer_total} total you entered does not match the £#{'%.2f' % order.total} order total"
-    raise message unless equal_totals?(customer_total)
+  def verify_correct_total(total)
+    message = "£#{'%.2f' % total} total you entered does not match the £#{'%.2f' % order.total} order total"
+    raise message unless total == order.total
   end
 
-  def sms_unavailable?
-    sms.nil?
+  def send_message
+    sms.nil? ? standard_message : sms.send_text
   end
 
   def standard_message
