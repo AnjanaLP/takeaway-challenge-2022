@@ -23,24 +23,43 @@ describe Order do
     end
 
     context 'when the item is not on the menu' do
-      it 'does not add it to the basket' do
-        allow(menu).to receive(:has?).with(:fries).and_return false
-        order.add_to_basket(:fries, 3)
-        expect(order.basket).not_to include(:fries)
+      it 'raises an error' do
+        item = :fries
+        allow(menu).to receive(:has?).with(item).and_return false
+        message = "Selected item #{item} is not on the menu. Please try again"
+        expect { order.add_to_basket(item, 3) }.to raise_error message
       end
     end
 
-    context 'when the given quantity is less than 1' do
-      it 'does not add it to the basket' do
-        order.add_to_basket(:salad, 0)
-        expect(order.basket).not_to include(:salad)
+    context 'when the given quantity is 0' do
+      it 'raises an error' do
+        quantity = 0
+        message = "Quantity #{quantity} for salad is invalid. Please try again"
+        expect { order.add_to_basket(:salad, quantity) }.to raise_error message
+      end
+    end
+
+    context 'when the given quantity is negative' do
+      it 'raises an error' do
+        quantity = -3
+        message = "Quantity #{quantity} for salad is invalid. Please try again"
+        expect { order.add_to_basket(:salad, quantity) }.to raise_error message
       end
     end
 
     context 'when the given quantity is a decimal' do
-      it 'rounds it the nearest whole number' do
-        order.add_to_basket(:salad, 1.2)
-        expect(order.basket).to include(salad: 1)
+      it 'raises an error' do
+        quantity = 1.75
+        message = "Quantity #{quantity} for salad is invalid. Please try again"
+        expect { order.add_to_basket(:salad, quantity) }.to raise_error message
+      end
+    end
+
+    context 'when the given quantity is not a number' do
+      it 'raises an error' do
+        quantity = "not a number"
+        message = "Quantity #{quantity} for salad is invalid. Please try again"
+        expect { order.add_to_basket(:salad, quantity) }.to raise_error message
       end
     end
   end
