@@ -17,8 +17,7 @@ describe 'User Stories' do
   # I would like to be able to select some number of several available dishes
   it 'a customer can select some number of several available dishes' do
     takeaway.add(salad: 1, sandwich: 2)
-    takeaway.add(sandwich: 1)
-    expect(order.basket).to eq( salad: 1, sandwich: 3)
+    expect(takeaway.add(sandwich: 1)).to eq(salad: 1, sandwich: 3)
   end
 
   context 'when the customer selects a dish that is not on the menu' do
@@ -65,14 +64,23 @@ describe 'User Stories' do
   # I would like to check that the total I have been given matches the sum of the various dishes in my order
   it 'a customer can check that the given total matches the sum of the dishes in their order' do
     takeaway.add(salad: 2, sandwich: 1)
-    expect(takeaway.correct_total?(14)).to be true
+    expect { takeaway.place_order(14) }.not_to raise_error
   end
 
   context 'when the total given by the customer does not match the order total' do
     it 'raises an error' do
       takeaway.add(salad: 2, sandwich: 1)
-      message = "£12.00 total entered does not match the £14.00 order total"
-      expect { takeaway.correct_total?(12) }.to raise_error message
+      message = "£12.00 total you entered does not match the £14.00 order total"
+      expect { takeaway.place_order(12) }.to raise_error message
     end
+  end
+
+  # As a customer
+  # So that I am reassured that my order will be delivered on time
+  # I would like to receive a text such as "Thank you! Your order was placed and will be delivered before 18:52" after I have ordered
+  it 'a customer receives a message with estimated delivery time after placing an order' do
+    allow(Time).to receive(:now).and_return(Time.parse("17:52"))
+    takeaway.add(salad: 2, sandwich: 1)
+    expect(takeaway.place_order(14)).to eq "Thank you! Your order was placed and will be delivered before 18:52"
   end
 end
