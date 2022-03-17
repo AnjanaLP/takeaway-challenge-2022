@@ -45,6 +45,7 @@ $ rspec
 - Ruby
 - RSpec
 - SimpleCov
+- Twilio
 
 ## Code example
 ```
