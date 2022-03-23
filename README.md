@@ -48,7 +48,7 @@ $ rspec
 - Twilio
 
 ## Code example
-```ruby
+```
 :001 > require './lib/takeaway'
  => true
 :002 > require './lib/menu'
