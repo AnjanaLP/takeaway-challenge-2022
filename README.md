@@ -70,12 +70,10 @@ Cannot place order: basket is empty (RuntimeError)
  => {:salad=>1, :sandwich=>3}
 :009 > takeaway.add(curry: 2)
 Selected item curry is not on the menu. Please try again (RuntimeError)
-:010 > takeaway.add(salad: -1)
-Quantity -1 for salad is invalid. Please try again (RuntimeError)
-:011 > takeaway.add(salad: 1.5)
+:010 > takeaway.add(salad: 1.5)
 Quantity 1.5 for salad is invalid. Please try again (RuntimeError)  
-:012 > takeaway.place_order(11)
+:011 > takeaway.place_order(11)
 £11.00 total you entered does not match the £25.75 order total (RuntimeError)
-:013 > takeaway.place_order(25.75)
+:012 > takeaway.place_order(25.75)
  => "Thank you! Your order was placed and will be delivered before 20:25"
 ```
